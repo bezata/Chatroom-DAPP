@@ -15,6 +15,7 @@ const HomePage = () => {
           <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300">
             Pay Now
           </button>
+          <ConnectIt></ConnectIt>
         </div>
       </nav>
 
