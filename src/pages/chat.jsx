@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Logo from "./logo";
 import Link from "next/link";
 import ConnectIt from "@/web3stuff/Provider";

@@ -1,12 +1,17 @@
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  darkTheme,
+  midnightTheme,
+} from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { celoAlfajores } from "wagmi/chains";
+import { celo, celoAlfajores } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 const { chains, provider } = configureChains(
-  [celoAlfajores],
+  [celoAlfajores, celo],
   [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 );
 
@@ -24,7 +29,12 @@ const wagmiClient = createClient({
 const ConnectIt = () => {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={darkTheme({
+          ...darkTheme.accentColors.purple,
+        })}
+      >
         <ConnectButton />
       </RainbowKitProvider>
     </WagmiConfig>
