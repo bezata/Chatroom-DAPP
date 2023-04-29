@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Logo from "./logo.jsx";
+import ConnectIt from "@/web3stuff/Provider.jsx";
 
 const HomePage = () => {
   return (
@@ -11,9 +12,6 @@ const HomePage = () => {
           <Logo />
         </Link>
         <div className="flex items-center">
-          <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300 mr-4">
-            Connect Wallet
-          </button>
           <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300">
             Pay Now
           </button>
@@ -29,7 +27,7 @@ const HomePage = () => {
           To access the chat, please buy some Celo Chat Tokens.
         </p>
         <Link
-          href="/chat"
+          href="/Chat"
           className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 md:py-4 px-6 md:px-8 rounded-full shadow-md transition duration-300"
         >
           Join Chat

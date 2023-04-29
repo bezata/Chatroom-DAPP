@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Logo from "./logo";
+import Link from "next/link";
+import ConnectIt from "@/web3stuff/Provider";
 
 const ChatApp = () => {
   const [message, setMessage] = useState("");
@@ -36,15 +38,12 @@ const ChatApp = () => {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col">
+    <div className="h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col overflow-hidden">
       {/* Navbar */}
       <nav className="flex items-center justify-between absolute w-full z-10 px-8 py-6 ">
         <div className="flex items-center"></div>
-        <div className="flex items-center space-x-4">
-          <button className=" bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300">
-            Connect Wallet
-          </button>
-        </div>
+        <div className="flex items-center space-x-4"></div>
+        <ConnectIt></ConnectIt>
       </nav>
 
       {/* Main content */}
@@ -53,10 +52,17 @@ const ChatApp = () => {
           <div className="p-4">
             <div className="flex items-center mb-4">
               <div>
-                <Logo></Logo>
+                <Link href="/" className="flex items-center">
+                  <Logo />
+                </Link>
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-white">Chatroom</h2>
+                <Link
+                  href="/Homepage"
+                  className="text-lg font-semibold text-white"
+                >
+                  Chatroom
+                </Link>
                 <p className="text-gray-300 text-sm">
                   {lastActiveTime &&
                     `Last active at ${lastActiveTime.toLocaleString()}`}
