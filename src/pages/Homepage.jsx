@@ -1,9 +1,13 @@
 import React from "react";
-import Link from "next/link";
 import Logo from "./logo.jsx";
 import ConnectIt from "@/web3stuff/Provider.jsx";
+import Link from "next/link.js";
 
 const HomePage = () => {
+  const handleJoinChatClick = () => {
+    window.location.href = "/Chat";
+  };
+
   return (
     <div className="h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col">
       {/* Navbar */}
@@ -12,10 +16,7 @@ const HomePage = () => {
           <Logo />
         </Link>
         <div className="flex items-center">
-          <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300">
-            Pay Now
-          </button>
-          <ConnectIt></ConnectIt>
+          <ConnectIt />
         </div>
       </nav>
 
@@ -27,12 +28,17 @@ const HomePage = () => {
         <p className="text-lg md:text-xl font-medium text-gray-300 text-center mb-8">
           To access the chat, please buy some Celo Chat Tokens.
         </p>
-        <Link
-          href="/Chat"
-          className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 md:py-4 px-6 md:px-8 rounded-full shadow-md transition duration-300"
-        >
-          Join Chat
-        </Link>
+        <div className="flex justify-center gap-4">
+          <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300">
+            Pay Now
+          </button>
+          <button
+            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300"
+            onClick={handleJoinChatClick}
+          >
+            Join Chat
+          </button>
+        </div>
       </div>
 
       {/* Footer */}
