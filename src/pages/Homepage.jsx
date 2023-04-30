@@ -7,25 +7,56 @@ import {
   useContractRead,
   usePrepareContractWrite,
   useContractWrite,
+  useAccount,
 } from "wagmi";
 
-const contractAddress = "0xFCA26B09189D65B2d95772F8a31d538Bc3b936D3";
+const contractAddress = "0x270338542f3430bC7d5b9bB4a498241356a47f81";
 const contractABI = CeloChat;
 
 const HomePage = () => {
-  const [isMember, setIsMember] = useState(false);
+  const { address } = useAccount();
+  const [newFee, setMembershipFee] = useState(0);
 
-  const { data } = useContractRead({
+  const { data: isMember } = useContractRead({
     address: contractAddress,
-    abi: CeloChat,
+    abi: contractABI,
     functionName: "checkMembership",
+    args: [address],
+    watch: true,
   });
 
-  const handleJoinChatClick = () => {
-    console.log(data);
-  };
+  const { data: membershipFee } = useContractRead({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "getMembershipFee",
+    onSuccess(membershipFee) {
+      let newFee = membershipFee.toNumber();
+      setMembershipFee(newFee);
+    },
+  });
 
-  const handlePayNowClick = async () => {};
+  const { config: join, error: joinError } = usePrepareContractWrite({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "joinChatRoom",
+    overrides: {
+      value: membershipFee,
+    },
+  });
+
+  const { isLoading: loadingJoin, write: joinChatRoom } =
+    useContractWrite(join);
+
+  const handleJoinChatClick = async () => {
+    if (isMember) {
+      // Redirect the user to the chat page if they are a member
+      window.location.href = "/Chat";
+    } else {
+      try {
+        await joinChatRoom?.();
+      } catch (error) {}
+    }
+  };
 
   return (
     <div className="h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col">
@@ -47,29 +78,42 @@ const HomePage = () => {
         <p className="text-lg md:text-xl font-medium text-gray-300 text-center mb-8">
           {isMember
             ? "You are a member of Celo Chat. Click the button below to join the chat."
-            : "To access the chat, please buy some Celo Chat Tokens."}
+            : `To access the chat, please pay ${newFee} GCELO. `}
         </p>
         <div className="flex justify-center gap-4">
           <button
-            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-red-500 hover:to-yellow-500 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300"
+            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-500 hover:to-black-300 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300"
             onClick={handleJoinChatClick}
+            disabled={loadingJoin || isMember}
           >
-            Join Chat
+            {isMember
+              ? "Fee Paid"
+              : loadingJoin
+              ? "Loading..."
+              : "Pay Membership Fee"}
+          </button>
+          <button
+            className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-500 hover:to-black-300 text-white font-semibold py-3 px-6 rounded-full shadow-md transition duration-300"
+            onClick={handleJoinChatClick}
+            disabled={loadingJoin || !isMember}
+          >
+            {loadingJoin ? "Loading..." : "Join Chat"}
           </button>
         </div>
       </div>
 
       {/* Footer */}
       <footer className="text-gray-300 text-sm py-6 px-8 flex justify-end">
-        <p className="mr-4">Check out my GitHub:</p>
-        <a
-          href="https://github.com/bezata"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          bezata
-        </a>
+        <div>
+          <a
+            href="https://github.com/bezata"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:underline"
+          >
+            Check my github: bezata
+          </a>
+        </div>
       </footer>
     </div>
   );

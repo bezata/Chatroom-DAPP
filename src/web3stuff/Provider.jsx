@@ -10,8 +10,9 @@ import { celo, celoAlfajores } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+
 const { chains, provider } = configureChains(
-  [celoAlfajores, celo],
+  [celoAlfajores],
   [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 );
 

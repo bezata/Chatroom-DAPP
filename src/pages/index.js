@@ -1,26 +1,34 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import HomePage from "./Homepage";
-import { publicProvider } from "wagmi/providers/public";
+import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { celoAlfajores } from "wagmi/chains";
+import { celo, celoAlfajores } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
 
-const inter = Inter({ subsets: ["latin"] });
-const chains = [celoAlfajores];
-const { provider, webSocketProvider } = configureChains(
-  [celoAlfajores],
+const { chains, provider } = configureChains(
+  [celoAlfajores, celo],
   [publicProvider()]
 );
 
-const client = createClient({
-  provider,
-  webSocketProvider,
+const { connectors } = getDefaultWallets({
+  appName: "CeloChat",
+  projectId: "6e18bca83b6d8c08562669f22a83ca97",
+  chains,
 });
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+});
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <WagmiConfig client={client}>
-      <HomePage></HomePage>
+    <WagmiConfig client={wagmiClient}>
+      <HomePage />
     </WagmiConfig>
   );
 }
