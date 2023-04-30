@@ -26,10 +26,11 @@ Once you have CELO tokens, you can connect your Celo wallet to the DApp and pay 
 ## Tech Stack
 The following technologies were used to build this DApp:
 
-Next.js
-Solidity
-React
-Rainbowkit
+- Next.js
+- Solidity
+- React
+- Rainbowkit
+- Wagmi
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
