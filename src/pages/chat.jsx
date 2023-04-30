@@ -25,9 +25,7 @@ const wagmiClient = createClient({
 const ChatApp = () => {
   return (
     <WagmiConfig client={wagmiClient}>
-      <NonSSRWrapper>
-        <ChatLogic></ChatLogic>
-      </NonSSRWrapper>
+      <ChatLogic></ChatLogic>
     </WagmiConfig>
   );
 };

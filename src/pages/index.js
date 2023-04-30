@@ -1,11 +1,9 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import HomePage from "./Homepage";
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { celo, celoAlfajores } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import NonSSRWrapper from "./SSR";
 
 const { chains, provider } = configureChains(
   [celoAlfajores, celo],
@@ -29,9 +27,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
     <WagmiConfig client={wagmiClient}>
-      <NonSSRWrapper>
-        <HomePage />
-      </NonSSRWrapper>
+      <HomePage />
     </WagmiConfig>
   );
 }
