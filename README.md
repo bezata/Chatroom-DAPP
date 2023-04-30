@@ -37,3 +37,5 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ## Acknowledgments
 This DApp was built as a part of a project for learning blockchain development with Celo. Thanks to the Celo community for providing great resources and documentation.
 
+![Adsız2](https://user-images.githubusercontent.com/61169260/235352385-28cdd5e1-baa1-4fe4-8b5b-dfc42b7d4d4e.png)
+![deneme](https://user-images.githubusercontent.com/61169260/235352388-f84d071f-6ac3-4e4a-94d3-867418f51751.png)
