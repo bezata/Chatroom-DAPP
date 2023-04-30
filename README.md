@@ -14,8 +14,9 @@ To install the DApp, clone the repository and run the following commands:
 ```bash
 npm install
 npm run dev
+```
 This will start a development server at http://localhost:3000.
-```bash
+
 
 ## Usage
 To use the DApp, you need to have a Celo account and some CELO tokens. You can buy CELO tokens from a cryptocurrency exchange or earn them through various Celo-based applications.
