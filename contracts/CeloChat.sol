@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract CeloChat {
-    address private owner;
+    address private immutable i_owner;
     mapping(address => bool) private members;
     mapping(uint256 => Message) private messages;
     uint256 private messageCount;
@@ -11,6 +11,7 @@ contract CeloChat {
 
     event NewMember(address member);
     event NewMessage(uint256 id, address sender, string message);
+    event DeleteMessage(uint256 id, address sender, string message);
     event Withdrawal(address to, uint256 amount);
 
     struct Message {
@@ -24,7 +25,7 @@ contract CeloChat {
      * @param fee The membership fee in wei.
      */
     constructor(uint256 fee) {
-        owner = msg.sender;
+        i_owner = msg.sender;
         messageCount = 0;
         membershipFee = fee;
     }
@@ -57,7 +58,7 @@ contract CeloChat {
      * @return The address of the owner.
      */
     function getOwner() public view returns (address) {
-        return owner;
+        return i_owner;
     }
 
     /**
@@ -66,7 +67,7 @@ contract CeloChat {
      * @param amount The amount of celo to withdraw.
      */
     function withdrawCelo(address payable to, uint256 amount) public {
-        require(msg.sender == owner, "Only the owner can withdraw Celo");
+        require(msg.sender == i_owner, "Only the owner can withdraw Celo");
         require(amount <= address(this).balance, "Insufficient balance");
         to.transfer(amount);
         emit Withdrawal(to, amount);
@@ -90,6 +91,22 @@ contract CeloChat {
         if (messageCount > MESSAGE_LIMIT) {
             delete messages[messageCount - MESSAGE_LIMIT];
         }
+    }
+
+    /**
+     * @dev Gets a message with the specified ID and delete it the sender === msg.sender.
+     * @param _id The ID of the message to get.
+     */
+    function deleteMyMessage(uint _id) public{
+        Message memory messageToDelete = messages[_id];
+        require(members[msg.sender], "You are not a member of the chat room");
+        require( messageToDelete.sender == msg.sender, "You are not message owner");
+        require(_id > 0 && _id <= messageCount, "Invalid message ID");
+        delete messageToDelete;
+
+        // Emmit DeleteMessage
+        emit DeleteMessage(_id,msg.sender,messageToDelete.message);
+
     }
 
     /**
@@ -137,7 +154,7 @@ contract CeloChat {
      */
     function setMembershipFee(uint256 fee) public {
         require(
-            msg.sender == owner,
+            msg.sender == i_owner,
             "Only the owner can set the membership fee"
         );
         membershipFee = fee;
