@@ -2,7 +2,6 @@ import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { celo, celoAlfajores, sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import NonSSRWrapper from "./SSR";
 import ChatLogic from "./ChatLogic";
 
 const { chains, provider } = configureChains(
