@@ -3,24 +3,43 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
   darkTheme,
-  midnightTheme,
+  connectorsForWallets,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { celo, celoAlfajores } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import {
+  metaMaskWallet,
+  omniWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import {
+  Valora,
+  CeloWallet,
+  CeloDance,
+  CeloExtension,
+} from "@celo/rainbowkit-celo/wallets";
 
 const { chains, provider } = configureChains(
   [celoAlfajores],
   [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: "CeloChat",
-  projectId: "6e18bca83b6d8c08562669f22a83ca97",
-  chains,
-});
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      metaMaskWallet({ chains }),
+      CeloWallet({ chains }),
+      CeloDance({ chains }),
+      omniWallet({ chains }),
+      walletConnectWallet({ chains }),
+      Valora({ chains }),
+    ],
+  },
+]);
 
 const wagmiClient = createClient({
   autoConnect: true,

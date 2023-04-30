@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@celo/rainbowkit-celo": "^0.11.1",
     "@rainbow-me/rainbowkit": "^0.12.12",
     "@web3modal/ethereum": "^2.3.7",
     "autoprefixer": "10.4.14",
