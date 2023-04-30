@@ -147,6 +147,36 @@ contract CeloChat {
         }
         return allMessages;
     }
+    
+    /**
+
+        @notice Returns an array of Messages within a specified range
+
+        @param startIndex The starting index of the range to retrieve Messages from
+
+        @param limit The maximum number of Messages to retrieve
+
+        @return An array of Message structs containing the Messages in the specified range
+
+        @dev startIndex must be less than messagesCount
+
+        - If endIndex exceeds the value of messagesCount, endIndex will be set to messagesCount.
+        - This function is a view function and does not modify the contract state.
+*/
+    
+    function getRangeMessages(uint256 startIndex, uint256 limit) public view returns (Message[] memory) 
+    { 
+    require(startIndex < messagesCount, "Invalid start index"); 
+    uint256 endIndex = startIndex + limit; 
+    if (endIndex > messagesCount) {
+    endIndex = messagesCount; 
+    } 
+    Message[] memory result = new Message[](endIndex - startIndex); 
+    for (uint256 i = startIndex; i < endIndex; i++) { 
+    result[i - startIndex] = messages[i]; 
+    } 
+    return result; 
+    }
 
     /**
      * @dev Sets the membership fee to the specified amount.
