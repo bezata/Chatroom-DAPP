@@ -10,6 +10,7 @@ import { celo, celoAlfajores } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import NonSSRWrapper from "../pages/SSR";
 
 const { chains, provider } = configureChains(
   [celoAlfajores],
@@ -30,14 +31,16 @@ const wagmiClient = createClient({
 const ConnectIt = () => {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider
-        chains={chains}
-        theme={darkTheme({
-          ...darkTheme.accentColors.purple,
-        })}
-      >
-        <ConnectButton />
-      </RainbowKitProvider>
+      <NonSSRWrapper>
+        <RainbowKitProvider
+          chains={chains}
+          theme={darkTheme({
+            ...darkTheme.accentColors.purple,
+          })}
+        >
+          <ConnectButton />
+        </RainbowKitProvider>
+      </NonSSRWrapper>
     </WagmiConfig>
   );
 };
