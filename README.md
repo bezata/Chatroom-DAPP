@@ -7,7 +7,7 @@ This is a decentralized chatroom DApp built using Next.js and Celo blockchain. U
 To get started with the DApp, you need to have the following installed:
 
 - Node.js (v14 or higher)
-- Celo Wallet Extension for Chrome or Firefox
+- Metamask Extension for Chrome or Firefox
 
 To install the DApp, clone the repository and run the following commands:
 
