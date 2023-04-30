@@ -15,12 +15,7 @@ import {
   omniWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import {
-  Valora,
-  CeloWallet,
-  CeloDance,
-  CeloExtension,
-} from "@celo/rainbowkit-celo/wallets";
+import { Valora, CeloWallet, CeloDance } from "@celo/rainbowkit-celo/wallets";
 
 const { chains, provider } = configureChains(
   [celoAlfajores],
