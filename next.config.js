@@ -6,12 +6,12 @@ const nextConfig = {
       {
         source: "/",
         destination: "/Chat",
-        permanent: true,
+        permanent: false,
       },
       {
         source: "/Chat",
         destination: "/",
-        permanent: true,
+        permanent: false,
       },
     ];
   },
