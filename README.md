@@ -19,7 +19,7 @@ This will start a development server at http://localhost:3000.
 
 
 ## Usage
-To use the DApp, you need to have a Celo account and some CELO tokens. You can buy CELO tokens from a cryptocurrency exchange or earn them through various Celo-based applications.
+To use the DApp, you need to have a Celo account and some CELO Alfajores tokens. You can take CELO tokens from a testnet faucet.
 
 Once you have CELO tokens, you can connect your Celo wallet to the DApp and pay the membership fee to become a member. After becoming a member, you can access the chatroom and start chatting with other members.
 
