@@ -7,7 +7,7 @@ contract CeloChat {
     mapping(uint256 => Message) private messages;
     uint256 private messageCount;
     uint256 private membershipFee;
-    uint256 private constant MESSAGE_LIMIT = 20;
+    uint256 private constant MESSAGE_LIMIT = 20; 
 
     event NewMember(address member);
     event NewMessage(uint256 id, address sender, string message);
@@ -69,7 +69,11 @@ contract CeloChat {
     function withdrawCelo(address payable to, uint256 amount) public {
         require(msg.sender == i_owner, "Only the owner can withdraw Celo");
         require(amount <= address(this).balance, "Insufficient balance");
-        to.transfer(amount);
+        require(to != address(0), "Invalid recipient address");
+
+         (bool success, ) = to.call{value: amount}("");
+          require(success, "Transfer failed");
+
         emit Withdrawal(to, amount);
     }
 
@@ -97,17 +101,14 @@ contract CeloChat {
      * @dev Gets a message with the specified ID and delete it the sender === msg.sender.
      * @param _id The ID of the message to get.
      */
-    function deleteMyMessage(uint _id) public{
-        Message memory messageToDelete = messages[_id];
-        require(members[msg.sender], "You are not a member of the chat room");
-        require( messageToDelete.sender == msg.sender, "You are not message owner");
-        require(_id > 0 && _id <= messageCount, "Invalid message ID");
-        delete messageToDelete;
+   function deleteMyMessage(uint messageId) public {
+    Message storage message = messages[messageId];
+    require(message.sender == msg.sender, "You are not the sender of this message");
+    delete messages[messageId];
+}
 
-        // Emmit DeleteMessage
-        emit DeleteMessage(_id,msg.sender,messageToDelete.message);
 
-    }
+    
 
     /**
      * @dev Gets the total number of messages sent in the chat room.
