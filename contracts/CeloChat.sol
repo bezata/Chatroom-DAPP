@@ -86,18 +86,22 @@ contract CeloChat {
     function sendMessage(string memory message) public {
         require(members[msg.sender], "You are not a member of the chat room");
         require(bytes(message).length > 0, "Message cannot be empty");
-
+        if (messageCount == MESSAGE_LIMIT) { 
+            for (uint i = 1 ; i < messageCount ; i ++){
+                messages[i] = messages[ i + 1 ];
+            }
+            messageCount--;
+        }
         messageCount++;
         messages[messageCount] = Message(messageCount, msg.sender, message);
+        
         emit NewMessage(messageCount, msg.sender, message);
-
+        
         // Delete oldest message if message count exceeds limit
-        if (messageCount > MESSAGE_LIMIT) {
-            delete messages[messageCount - MESSAGE_LIMIT];
-        }
+        
     }
 
-    /**
+    /*
      * @dev Gets a message with the specified ID and delete it the sender === msg.sender.
      * @param _id The ID of the message to get.
      */
@@ -142,6 +146,7 @@ contract CeloChat {
      * @return An array of all the messages.
      */
     function getAllMessages() public view returns (Message[] memory) {
+        require(messageCount <= MESSAGE_LIMIT);
         Message[] memory allMessages = new Message[](messageCount);
         for (uint256 i = 1; i <= messageCount; i++) {
             allMessages[i - 1] = messages[i];
@@ -167,10 +172,10 @@ contract CeloChat {
     
     function getRangeMessages(uint256 startIndex, uint256 limit) public view returns (Message[] memory) 
     { 
-    require(startIndex < messagesCount, "Invalid start index"); 
+    require(startIndex < messageCount, "Invalid start index"); 
     uint256 endIndex = startIndex + limit; 
-    if (endIndex > messagesCount) {
-    endIndex = messagesCount; 
+    if (endIndex > messageCount) {
+    endIndex = messageCount; 
     } 
     Message[] memory result = new Message[](endIndex - startIndex); 
     for (uint256 i = startIndex; i < endIndex; i++) { 
